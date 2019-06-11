@@ -27,28 +27,27 @@ function changeActivity(act)
 	setHighlightStyle(0x8ffff00, false)
 end
 
--- Click on random spot of the image
-function clickImage()
-	if getLastMatch() ~= nil then
-		local lastmatch = getLastMatch()
-		local coords = { ["x"] = lastmatch:getX(), ["y"] = lastmatch:getY(), ["w"] = lastmatch:getW(), ["h"] = lastmatch:getH() }
-		local loc = Location(coords["x"] + math.random(coords["w"]), coords["y"] + math.random(coords["h"]))
-		click(loc)
+function clickRandom(region)
+	if region ~= nil then
+		if region:getLastMatch() ~= nil then
+			match = region:getLastMatch()
+		else
+			match = region
+		end
+	else
+		match = getLastMatch()
 	end
-end
 
--- Click on random spot of the screen
-function clickScreen()
-	local loc = Location(fullscreen:getX() + math.random(fullscreen:getW()), fullscreen:getY() + math.random(fullscreen:getH()))
-	click(loc)
+	local location = Location(match:getX() + math.random(match:getW()), match:getY() + math.random(match:getH()))
+	click(location)
 end
 
 -- Check if can start battle
 function startBattle()
 	if (imageExists(Pattern("startBattle.png"):similar(0.7))) then
-		changeActivity("Started battle")
 		wait(math.random(3, 15))
-		clickImage()
+		clickRandom()
+		changeActivity("Battle started!")
 	end
 end
 
@@ -57,39 +56,43 @@ function endBattle()
 	if (imageExists(Pattern("victory.png"))) then
 		changeActivity("Victory!")
 		wait(math.random(3, 8))
-		clickScreen()
+		clickRandom(fullscreen)
 
 		local reward = imageExists(Pattern("battleReward.png"))
 
 		if reward then
 			changeActivity("Opening chest...")
-			wait(math.random(0.3, 2))
-			clickImage()
+			wait(math.random(0, 2))
+			clickRandom()
 
 			if (imageExists(Pattern("getButton.png"):similar(0.7))) or (imageExists(Pattern("okButton.png"):similar(0.7))) then
-				wait(math.random(2, 10))
-				clickImage()
+				changeActivity("Getting loot...")
+				wait(math.random(1, 5))
+				clickRandom()
 			end
 		end
 
 		if (imageExists(Pattern("replayBattle.png"):similar(0.7))) or (imageExists(Pattern("prepareBattle.png"):similar(0.7))) then
 			changeActivity("Clicking replay...")
 			wait(math.random(0.3, 5))
-			clickImage()
+			clickRandom()
+			changeActivity("In battle...")
 		end
 	elseif (imageExists(Pattern("defeated.png"))) then
 		changeActivity("Defeated!")
 		wait(math.random(3, 8))
-		clickScreen()
+		clickRandom(fullscreen)
 
 		if (imageExists(Pattern("noButton.png"):similar(0.7))) then
 			wait(math.random(0.3, 5))
-			clickImage()
+			clickRandom()
 		end
 
 		if (imageExists(Pattern("replayBattle.png"):similar(0.7))) or (imageExists(Pattern("prepareBattle.png"):similar(0.7))) then
+			changeActivity("Clicking replay...")
 			wait(math.random(0.3, 5))
-			clickImage()
+			clickRandom()
+			changeActivity("In battle...")
 		end
 	end
 end
