@@ -1,12 +1,12 @@
 -- Game: Summoners War
 -- Version: 0.1
--- Author: will3ms
+-- Author: will3m5
 
 -- Options
 wins = 0
 lost = 0
 fullscreen = Region(0, 0, 2960, 1440)
-activityPos = Region()
+activityPos = Region(math.floor(2960/3), 1440-75, 986, 75)
 
 -- Functions
 -- Check if image exists
@@ -21,9 +21,9 @@ end
 
 -- Activity overlay
 function changeActivity(act)
-	fullscreen:highlightOff()
+	activityPos:highlightOff()
 	setHighlightTextStyle(0x4d000000,0xf8ffffff, 12)
-	fullscreen:highlight(act)
+	activityPos:highlight(act)
 	setHighlightStyle(0x8ffff00, false)
 end
 

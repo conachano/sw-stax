@@ -1,5 +1,5 @@
 <-> DEFEATED add noButton check
 <> Energy refill
-<> Activity overlay
+<-> Activity overlay
 <> Win / lose overlay
 <> Auto enable auplay
