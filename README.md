@@ -1,2 +1,3 @@
 # sw-stax
-Summoners War Bot
+Summoners War Bot<br>
+Made in LUA
